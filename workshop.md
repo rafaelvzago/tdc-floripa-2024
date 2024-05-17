@@ -272,7 +272,7 @@ claim2.json_analysis.json
 claim3.json_analysis.json
 ```
 
-** Conteúdo de exemplo: **
+> Conteúdo de exemplo:
 
 ```json
 {
