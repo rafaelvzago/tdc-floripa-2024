@@ -218,7 +218,9 @@ Formato:
 **Instruções:**
 
 1. Abra o arquivo `03-03-information-extraction.ipynb`.
+
 Modifique o passo #6 Analyse Claims:
+
 ```python
 for filename in onlyfiles:
     print(f"***************************")
@@ -268,8 +270,7 @@ for filename in onlyfiles:
 claim1.json_analysis.json
 claim2.json_analysis.json
 claim3.json_analysis.json
-...
-
+```
 
 ** Conteúdo de exemplo:
 
