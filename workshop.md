@@ -155,4 +155,93 @@ A imagem demonstra a arquitetura de um cluster de computação para processament
 
 A arquitetura permite que múltiplos usuários trabalhem em seus próprios projetos, utilizando recursos compartilhados e individuais, com o suporte de uma infraestrutura de computação poderosa.
 
+## Como usar LLMs?
+
+- [Notebook para utilizar LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-01-nb-llm-example.ipynb)
+
+Este notebook explora a interação programática com um modelo de linguagem de grande porte (LLM), como o ChatGPT, utilizando Python e o framework Langchain. Em vez de usar uma interface gráfica, acessamos o modelo Mistral-7B Instruct v2 diretamente através de sua API, aproveitando suas capacidades para tarefas específicas.
+
+Configuramos o modelo com parâmetros como número máximo de tokens e temperatura, que influenciam o comprimento e a criatividade da resposta. Além disso, definimos um template com instruções detalhadas para guiar o comportamento do modelo, garantindo respostas seguras, éticas e informativas.
+
+Utilizando o Langchain, combinamos o modelo e o template para criar um objeto de conversa, que facilita a comunicação com o LLM. Para demonstrar a interação, enviamos uma pergunta sobre Inteligência Artificial e obtivemos uma resposta detalhada e esclarecedora do modelo.
+
+Este processo programático de interação com LLMs abre um leque de possibilidades para integrar modelos de linguagem em aplicações e sistemas, permitindo o desenvolvimento de soluções mais personalizadas e eficientes.
+
+### Notebook para Resumo de Texto
+
+- [Notebook para resumir texto com LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-02-summarization.ipynb)
+
+Este trecho de código em Python prepara os dados para a sumarização de sinistros por um modelo de linguagem (LLM). Ele lê todos os arquivos JSON na pasta 'claims', que contêm informações sobre sinistros de seguro. Em seguida, converte o conteúdo de cada arquivo em um dicionário Python e armazena esses dicionários em um dicionário maior chamado `claims`. Cada chave neste dicionário é o nome do arquivo JSON e o valor correspondente é o dicionário Python que representa o sinistro.
+
+Em seguida, o código utiliza o framework Langchain para criar um pipeline de sumarização. Este pipeline combina o modelo de linguagem Mistral-7B Instruct v2 com um template que fornece instruções específicas para a tarefa de sumarização. O objetivo é gerar resumos concisos e informativos para cada sinistro presente nos arquivos JSON.
+
+Após a criação do pipeline, o código itera sobre cada sinistro no dicionário `claims`. Para cada sinistro, ele exibe o assunto e o conteúdo original do sinistro, seguido do resumo gerado pelo LLM. Isso permite comparar o texto original com o resumo, avaliando a qualidade e a utilidade da sumarização realizada pelo modelo.
+
+
+### Notebook para Extração de Informações
+
+- [Notebook para extrair informações com LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-03-information-extraction.ipynb)
+
+Este notebook explora a capacidade de um LLM (Large Language Model) analisar textos e extrair informações específicas, como o sentimento do autor e detalhes sobre um evento.
+
+Utilizando o framework Langchain e o modelo de linguagem Mistral-7B Instruct v2, um pipeline de análise é criado. Um template específico é definido para guiar o LLM na extração de informações relevantes, como o sentimento do autor, local e horário de um evento descrito em um texto.
+
+O código lê arquivos JSON contendo exemplos de sinistros de seguro e, para cada sinistro:
+
+1. Exibe o assunto e o conteúdo original da mensagem.
+2. Realiza três consultas ao LLM:
+    - Análise de sentimento: Detecta o estado emocional do autor da mensagem.
+    - Extração de local: Identifica o local do evento mencionado na mensagem.
+    - Extração de tempo: Determina o horário (data e hora) do evento mencionado na mensagem.
+3. Apresenta os resultados da análise, incluindo o sentimento, local e horário extraídos.
+
+Essa demonstração ilustra como os LLMs podem ser utilizados para automatizar a análise de textos, extraindo informações relevantes de forma rápida e eficiente, o que pode ser aplicado em diversas áreas, como análise de feedback de clientes, moderação de conteúdo e processamento de documentos.
+
+### Notebook para comparação de modelos de LLMs
+
+- [Notebook para comparar modelos de LLMs](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-04-comparing-models.ipynb)
+
+Este notebook explora a comparação entre dois modelos de linguagem (LLMs): Mistral-7B e Flan-T5-Small, avaliando seu desempenho em tarefas de análise de texto, como identificar o sentimento do autor, local e horário de um evento.
+
+**Comparação dos Modelos:**
+
+* **Mistral-7B:**
+    - Modelo maior com 7 bilhões de parâmetros.
+    - Requer GPU com 24GB de RAM.
+    - Apresenta resultados mais precisos e detalhados na análise do texto.
+* **Flan-T5-Small:**
+    - Modelo menor com 80 milhões de parâmetros.
+    - Executa sem GPU e com apenas 1GB de RAM.
+    - Mais rápido, mas com resultados menos precisos e detalhados.
+
+**Análise de Caso:**
+
+O notebook demonstra a análise de um sinistro de carro utilizando ambos os modelos. O Mistral-7B identifica corretamente o sentimento positivo do remetente, o local (cruzamento de Birch Street e Willow Avenue em Evergreen) e o horário (2 de janeiro de 2024, às 15h30). Já o Flan-T5-Small apresenta resultados imprecisos, como um sentimento negativo e informações incorretas sobre o local e o horário.
+
+**Conclusão:**
+
+A escolha do modelo ideal depende do equilíbrio entre desempenho, precisão e recursos disponíveis. O Mistral-7B oferece maior precisão, mas exige mais recursos. O Flan-T5-Small é mais rápido e leve, porém menos preciso. É crucial realizar verificações de sanidade para garantir que o modelo escolhido atenda às expectativas e se adapte às mudanças nos dados.
+
+### Modificando os parâmetros do LLM
+
+## Explorando as Configurações e Modificando os Dados
+
+Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos experimentar com suas configurações e dados.
+
+**Ajustando as Configurações do LLM:**
+
+1. **Notebook 03-01-nb-llm-example.ipynb:**
+   - Modifique parâmetros como a temperatura para respostas mais criativas.
+   - Experimente com o template do prompt para obter respostas em diferentes formatos (poemas, explicações para públicos específicos).
+   - Altere as perguntas para testar a robustez contra "prompt injection".
+
+**Modificando os Dados e o Prompt:**
+
+2. **Notebook 03-02-summarization.ipynb:**
+   - Edite ou crie sinistros mais complexos.
+   - Experimente com diferentes idiomas.
+3. **Notebook 03-03-information-extraction.ipynb:**
+   - Edite ou crie sinistros mais complexos.
+   - Ajuste o prompt para extração de data e hora mais precisa, em formato específico.
+
 
