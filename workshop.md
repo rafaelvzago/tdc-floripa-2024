@@ -54,12 +54,13 @@ Os exemplos abaixo ilustram o que esperamos alcançar com a versão protótipo d
 ### Utilizando um LLM para Resumo de Texto
 
 Permite uma leitura mais rápida pelo perito.
-![Image of text summary LLM](Image-of-information-extraction-LLM.png)
+![Image of text summary LLM](text-summary-LLM.png)
 
  A imagem demonstra como um modelo de linguagem (LLM) pode resumir um e-mail longo e confuso de um cliente sobre um acidente de carro em um formato claro e conciso. Isso permite que o perito de seguros compreenda rapidamente os detalhes-chave do acidente (data, local, danos, testemunhas), agilizando o processo de análise e processamento da reivindicação.
 
 ### Utilizando um LLM para extração de informações
 
+![Image of Inforamtion Extraction](information-extraction-LLM.png)
 
 A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um email sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
 
