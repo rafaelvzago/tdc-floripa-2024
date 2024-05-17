@@ -85,48 +85,6 @@ Detectar o tom do texto e potencialmente agir sobre ele.
 
 A diretoria foi convencida! A empresa decidiu financiar totalmente o projeto, permitindo a transição da fase de prototipagem para a produção. E a boa notícia é que vocês foram contratados para fazer parte da equipe que construirá e implementará a solução completa!
 
-## Criando Seu Projeto e Servidor de Pipeline Utilizando o OpenShift AI
-
-Abaixo estão as instruções para configurar seu ambiente de trabalho, para isso acesse: 
-
-1. [Demo Redhat Site](https://demo.redhat.com/)
-2. Faça login com seu usuário e senha
-3. Pesquise por "Streamline Insurance Claims with Openshift AI"
-4. Inicie o seu ambiente de trabalho para aprendizagem.
-
-### Instruções para Configuração
-
-Como etapa preliminar, cada um de vocês irá:
-
-1. **Criar um Projeto de Ciência de Dados:** Isso ajudará a manter seus arquivos organizados.
-2. **Criar uma Conexão de Dados:** Necessária para o servidor de pipeline armazenar seus artefatos.
-3. **Implantar um Servidor de Pipeline de Ciência de Dados:** É melhor criá-lo desde o início.
-4. **Iniciar um Workbench:** Usaremos para revisar o conteúdo e os notebooks.
-5. **Clonar o Repositório Git em Seu Workbench:** Este contém todo o código do protótipo.
-
-As instruções abaixo guiarão você por essas etapas.
-
-### Criando um Projeto
-
-1. No OpenShift AI Dashboard, navegue até o menu **Data Science Projects** à esquerda.
-2. Crie um projeto com o **mesmo nome** do seu ID de usuário (por exemplo, `user1`).
-3. **Importante:** Utilize o nome de usuário correto (`user1`, `user2`, etc.), pois isso é crucial para o funcionamento correto do projeto.
-4. Deixe o nome do recurso inalterado.
-5. Opcionalmente, insira seu nome e sobrenome na descrição do projeto.
-
-### Criando uma Conexão de Dados para o Servidor de Pipeline
-
-1. Adicionaremos uma conexão de dados que aponta para uma instância Minio no cluster, que atuará como um Armazenamento de Objetos simples.
-2. Clique em **Add data connection** e insira as seguintes informações fornecidas pela painel.
-
-### Criando um Servidor de Pipeline
-
-1. No seu Projeto de Ciência de Dados, clique em **Create a pipeline Server**.
-2. Selecione a Conexão de Dados criada anteriormente (Shared Minio - pipelines) e clique em **Configure**.
-3. Aguarde a implantação do servidor de pipeline. Quando estiver pronto, você verá uma mensagem de confirmação na tela.
-
-Com isso, seu servidor de pipeline estará pronto e implantado.
-
 
 ### Overview da Arquitetura
 
@@ -212,11 +170,11 @@ Este notebook explora a comparação entre dois modelos de linguagem (LLMs): Mis
 
 **Análise de Caso:**
 
-O notebook demonstra a análise de um sinistro de carro utilizando ambos os modelos. O Mistral-7B identifica corretamente o sentimento positivo do remetente, o local (cruzamento de Birch Street e Willow Avenue em Evergreen) e o horário (2 de janeiro de 2024, às 15h30). Já o Flan-T5-Small apresenta resultados imprecisos, como um sentimento negativo e informações incorretas sobre o local e o horário.
+> O notebook demonstra a análise de um sinistro de carro utilizando ambos os modelos. O Mistral-7B identifica corretamente o sentimento positivo do remetente, o local (cruzamento de Birch Street e Willow Avenue em Evergreen) e o horário (2 de janeiro de 2024, às 15h30). Já o Flan-T5-Small apresenta resultados imprecisos, como um sentimento negativo e informações incorretas sobre o local e o horário.
 
 **Conclusão:**
 
-A escolha do modelo ideal depende do equilíbrio entre desempenho, precisão e recursos disponíveis. O Mistral-7B oferece maior precisão, mas exige mais recursos. O Flan-T5-Small é mais rápido e leve, porém menos preciso. É crucial realizar verificações de sanidade para garantir que o modelo escolhido atenda às expectativas e se adapte às mudanças nos dados.
+> A escolha do modelo ideal depende do equilíbrio entre desempenho, precisão e recursos disponíveis. O Mistral-7B oferece maior precisão, mas exige mais recursos. O Flan-T5-Small é mais rápido e leve, porém menos preciso. É crucial realizar verificações de sanidade para garantir que o modelo escolhido atenda às expectativas e se adapte às mudanças nos dados.
 
 ### Modificando os parâmetros do LLM
 
