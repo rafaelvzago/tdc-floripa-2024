@@ -2,10 +2,20 @@
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
+Além do treinamento feito para a análise dos sinistros, vamos criar uma aplicação onde o resultado final será armazenado em um banco de dados e disponibilizado para consulta em um datacenter compartilhado e mais leve, pois a parte de processamento de texto já foi feita e assim a aplicação será mais rápida e eficiente e debaixo do  cluster kubernetes da empresa.
+
+Essa conexão será feita com o Red Hat Service Interconnect, que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
+
+A aplicação será desenvolvida no Red Hat Developer Hub, que é uma plataforma de desenvolvimento de aplicativos que fornece uma experiência de desenvolvimento de aplicativos moderna e unificada para desenvolvedores de todos os níveis de habilidade.
+
 Detalhes:
 
 1. Esse workshop se baseia em uma demonstração do OpenShift AI, que fornece um ambiente de trabalho completo para desenvolvimento de projetos de IA/ML.
 2. Repositório do projeto: [Insurance Claim Processing](https://github.com/rh-aiservices-bu/insurance-claim-processing/tree/main)
+3. Red Hat Service Interconnect: [Red Hat Service Interconnect](https://www.redhat.com/en/technologies/cloud-computing/service-interconnect)
+
+
+![solucao](solucao.png)
 
 ## Estrutura do Processo
 
@@ -21,6 +31,16 @@ Detalhes:
 Somos uma grande seguradora multinacional em processo de transformação digital, buscando modernizar práticas e utilizar novas tecnologias. Uma pequena equipe foi incumbida de analisar o processo atual de sinistros e propor melhorias.
 
 As descobertas serão apresentadas à diretoria e, se convincentes, a equipe receberá recursos para implementar as recomendações. As próximas seções deste capítulo apresentam os materiais que foram apresentados à diretoria.
+
+Temos a necessidade de integrar a solução de processamento de sinistros com analise de texto com nossa API em um cluster kubernetes na AWS, pois o processamento foi feito dentro de outro datacenter da empresa.
+
+
+## Desafios:
+
+1. Mantenha a integridade dos dados e a segurança da informação.
+2. O processamento dos emails deve ser feito com o Openshift AI no datacenter localizado dentro da empresa.
+3. A aplicação deve ser disponibilizada para consulta em um datacenter compartilhado e mais leve, pois a parte de processamento de texto já foi feita e assim a aplicação será mais rápida e eficiente.
+4. O treinamento não pode ser feito em outro cloud provider pois o custo é muito alto.
 
 ## Análise do Processo Atual de Sinistros
 
