@@ -1,6 +1,11 @@
-## Visão Geral do Laboratório
+## Visão Geral do Workshop
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
+
+Detalhes:
+
+1. Esse workshop se baseia em uma demonstração do OpenShift AI, que fornece um ambiente de trabalho completo para desenvolvimento de projetos de IA/ML.
+2. Repositório do projeto: [Insurance Claim Processing](https://github.com/rh-aiservices-bu/insurance-claim-processing/tree/main)
 
 ## Estrutura do Processo
 
@@ -60,6 +65,8 @@ Permite uma leitura mais rápida pelo perito.
 
 ### Utilizando um LLM para extração de informações
 
+Permite extrair informações-chave de um e-mail e preencher automaticamente.
+
 ![Image of Inforamtion Extraction](information-extraction-LLM.png)
 
 A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um email sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
@@ -68,23 +75,11 @@ A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-
 
 ### Utilizando um LLM para Análise de Sentimento
 
+Permite identificar rapidamente o sentimento do cliente.
+
+![Image of Sentiment Analysis](sentiment-LLM.png)
+
 Detectar o tom do texto e potencialmente agir sobre ele.
-[Image of LLM sentiment analysis example]
-
-### Utilizando Reconhecimento de Imagem para Enquadrar Veículos em Fotos
-
-Analisar imagens fornecidas pelo cliente.
-[Image of image recognition of vehicle]
-
-### Utilizando Reconhecimento de Imagem para Detectar Danos
-
-Avaliação de danos com base na imagem.
-[Image of image recognition of damage]
-
-### Aplicativo Web para Revisar/Processar Sinistros
-
-Um aplicativo que integra essas ferramentas e permite que os usuários processem as solicitações recebidas de forma mais eficiente.
-[Image of a web application that ties in these tools]
 
 ## Resultados
 
