@@ -131,3 +131,28 @@ As instruções abaixo guiarão você por essas etapas.
 
 Com isso, seu servidor de pipeline estará pronto e implantado.
 
+
+### Overview da Arquitetura
+
+A imagem demonstra a arquitetura de um cluster de computação para processamento de dados e inteligência artificial. O cluster é composto por:
+
+* **Recursos compartilhados:**
+    - ic-shared-minio: Armazenamento de objetos (MinIO) para dados e artefatos.
+    - ic-shared-app: Aplicativo compartilhado para interação com os usuários.
+    - ic-shared-img-det: Modelos de detecção de imagem.
+    - ic-shared-db: Banco de dados compartilhado.
+    - ic-shared-llm: Modelos de linguagem de grande porte (LLMs) para processamento de linguagem natural.
+
+* **Recursos individuais por usuário:**
+    - Workbench: Ambiente de desenvolvimento para cada usuário (user1, user2, user3, ..., userN).
+    - Model Serving: Serviço para disponibilizar modelos de machine learning.
+    - Pipeline Server: Servidor para orquestrar pipelines de dados e machine learning.
+    - Web App: Aplicativo web para interação com os usuários.
+
+* **Infraestrutura:**
+    - Vários nós de processamento com GPUs para execução de tarefas intensivas em computação.
+    - Um nó de GPU dedicado para tarefas específicas.
+
+A arquitetura permite que múltiplos usuários trabalhem em seus próprios projetos, utilizando recursos compartilhados e individuais, com o suporte de uma infraestrutura de computação poderosa.
+
+
