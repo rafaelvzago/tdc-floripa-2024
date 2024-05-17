@@ -70,7 +70,7 @@ Permite uma leitura mais rápida pelo perito.
 
 ### Utilizando um LLM para extração de informações
 
-[Image-of-information-extraction-LLM.svg]
+!(Image-of-information-extraction-LLM.svg)
 
 A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um email sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
 
