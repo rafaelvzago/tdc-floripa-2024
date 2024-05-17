@@ -2,16 +2,14 @@
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
-## Estrutura do Workshop
+## Estrutura do Processo
 
-| Nome             | Duração | Tipo                     | Descrição                                                                                                                  |
-| ---------------- | ------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| Contexto         | 5       | Apresentação             | Descreveremos o estado final desejado, a experiência do usuário e a arquitetura subjacente. Utilizaremos mockups para melhor visualização. |
-| Conexão e Setup  | 10      | Hands-On                 | Os participantes se conectarão, validarão o ambiente e configurarão o projeto.                                             |
-| LLM              | 20      | Hands-On                 | Verificaremos o resumo, o sentimento e a comparação de modelos, além de realizar exercícios de prompt engineering e validação do pipeline.       |
-| Processamento de Imagem | 20      | Hands-On                 | Realizaremos verificações de reconhecimento de carros, exercícios de retreinamento e implantação de modelos.                     |
-| Web App          | 20      | Hands-On                 | Implantaremos e atualizaremos o aplicativo web.                                                                             |
-| Produtização      | 5       | Apresentação + Discussão | Discutiremos quais recursos poderiam agregar valor e quais outras ações poderiam ser realizadas seguindo os mesmos padrões.               |
+* Contexto
+* Conexão e Setup
+* LLM           
+* Processamento de Imagem 
+* Web App         
+* Produtização  
 
 ## Cenário
 
