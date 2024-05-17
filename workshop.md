@@ -2,14 +2,6 @@
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
-### Aviso Legal
-
-Este laboratório é um exemplo do que um cliente pode construir utilizando o OpenShift AI. O OpenShift AI não possui recursos específicos relacionados ao Processamento de Sinistros de Seguro.
-
-O laboratório utiliza modelos de linguagem de grande porte (LLM) e modelos de processamento de imagens. Esses modelos não estão incluídos no produto OpenShift AI e são fornecidos apenas para fins de demonstração neste laboratório.
-
-A qualidade dos modelos é suficiente para um protótipo. A escolha do modelo ideal para um ambiente de produção é uma tarefa complexa que exige experimentação e ajustes, aspectos que não serão abordados neste laboratório.
-
 ## Estrutura do Workshop
 
 | Nome             | Duração | Tipo                     | Descrição                                                                                                                  |
@@ -64,13 +56,12 @@ Os exemplos abaixo ilustram o que esperamos alcançar com a versão protótipo d
 ### Utilizando um LLM para Resumo de Texto
 
 Permite uma leitura mais rápida pelo perito.
-[Image of text summary LLM]
+![Image of text summary LLM](Image-of-information-extraction-LLM.png)
 
  A imagem demonstra como um modelo de linguagem (LLM) pode resumir um e-mail longo e confuso de um cliente sobre um acidente de carro em um formato claro e conciso. Isso permite que o perito de seguros compreenda rapidamente os detalhes-chave do acidente (data, local, danos, testemunhas), agilizando o processo de análise e processamento da reivindicação.
 
 ### Utilizando um LLM para extração de informações
 
-!(Image-of-information-extraction-LLM.svg)
 
 A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um email sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
 
