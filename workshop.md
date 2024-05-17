@@ -178,7 +178,7 @@ Este notebook explora a comparação entre dois modelos de linguagem (LLMs): Mis
 
 ### Modificando os parâmetros do LLM
 
-## Explorando as Configurações e Modificando os Dados
+#### Explorando as Configurações e Modificando os Dados
 
 Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos experimentar com suas configurações e dados.
 
