@@ -1,13 +1,19 @@
+# Workshop - Processamento de Sinistros de Seguros
+
+Link: https://demo.redhat.com/workshop/87caa7
+Usuário: 
+Senha: 
+
 ## Visão Geral do Workshop
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
-Além do treinamento feito para a análise dos sinistros, com parte do Workshop no TDC Florianópolis, o exemplo foi adaptador para utilizar o Skupper como conexão dos dados privados dos pedidos de seguros. Com isso, a solução vai ser feita da seguinte forma:
+Além do treinamento feito para a análise dos sinistros, com parte do Workshop no TDC Florianópolis, o exemplo foi adaptado para utilizar o Skupper como conexão dos dados privados dos pedidos de seguros. Com isso, a solução será feita da seguinte forma:
 
-1. O armazenamentos dos dados brutos dos pedidos será feito dentro da empresa, mantendo o sigilo e controle dos dados.
+1. O armazenamento dos dados brutos dos pedidos será feito dentro da empresa, mantendo o sigilo e controle dos dados.
 2. Uma aplicação Go vai expor os dados internamente em um container podman com um endpoint para a conexão com o Skupper. [go-flp(https://github.com/rafaelvzago/go-flp)
 3. O ambiente para treinamento dos modelos de IA/ML será feito em um cluster Openshift AI na AWS.
-4. A conexão do serviço de exposição de dados podman com o ambiente em núvem do Openshift AI será feita com o Red Hat Service Interconnect (Skupper), que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
+4. A conexão do serviço de exposição de dados podman com o ambiente em nuvem do Openshift AI será feita com o Red Hat Service Interconnect (Skupper), que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
 
 Detalhes:
 
@@ -35,19 +41,19 @@ Somos uma grande seguradora multinacional em processo de transformação digital
 
 As descobertas serão apresentadas à diretoria e, se convincentes, a equipe receberá recursos para implementar as recomendações. As próximas seções deste capítulo apresentam os materiais que foram apresentados à diretoria.
 
-Temos a necessidade de integrar a solução de processamento de sinistros com analise de texto com nossa API em um cluster kubernetes na AWS, pois o processamento foi feito dentro de outro datacenter da empresa.
+Temos a necessidade de integrar a solução de processamento de sinistros com análise de texto com nossa API em um cluster Kubernetes na AWS, pois o processamento foi feito dentro de outro datacenter da empresa.
 
 
 ## Desafios:
 
-1. Mantenha a integridade dos dados e a segurança da informação.
-2. O processamento dos emails deve ser feito com o Openshift AI no datacenter localizado dentro da empresa.
-3. A aplicação contendo os dados sensíveis como os claims originais devem ser mantidos dentro da empresa
-4. A conexão entre o serviço de dados e o data-center deve ser seguro.
+1. Manter a integridade dos dados e a segurança da informação.
+2. O processamento dos e-mails deve ser feito com o OpenShift AI no datacenter localizado dentro da empresa.
+3. A aplicação contendo os dados sensíveis, como os claims originais, deve ser mantida dentro da empresa.
+4. A conexão entre o serviço de dados e o datacenter deve ser segura.
 
 ## Análise do Processo Atual de Sinistros
 
-Os sinistros podem ser recebidos por diversos canais (email, fax, telefone, formulário web), mas todos precisam ser transcritos para o formulário web para padronização.
+Os sinistros podem ser recebidos por diversos canais (e-mail, fax, telefone, formulário web), mas todos precisam ser transcritos para o formulário web para padronização.
 
 O processamento é feito por peritos (humanos), que levam em média 7 horas por sinistro. Estima-se que erros humanos causem perdas de US$ 2,5 milhões/ano, e fraudes, mais US$ 3,5 milhões/ano.
 
@@ -90,9 +96,9 @@ Permite uma leitura mais rápida pelo perito.
 
 Permite extrair informações-chave de um e-mail e preencher automaticamente.
 
-![Image of Inforamtion Extraction](information-extraction-LLM.png)
+![Image of Information Extraction](information-extraction-LLM.png)
 
-A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um email sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
+A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um e-mail sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
 
 ## Exemplos do Trabalho de Prototipagem (Continuação)
 
@@ -226,12 +232,12 @@ Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos expe
 ### Atividades
 
 1. Instalar o Skupper localmente
-2. Instalar o Skupper no Cluster Openshift
+2. Instalar o Skupper no Cluster OpenShift
 3. Fazer o link dos sites
 4. Rodando a aplicação dentro do podman site e expondo o serviço
 5. Modificar os exemplos usados na demonstração
 
-1. Instalando o skupper no podman site
+1. Instalando o Skupper no podman site
 
 ```bash
 export SKUPPER_PLATFORM=podman
@@ -239,7 +245,7 @@ podman network create skupper
 ./skupper init --ingress none
 ```
 
-2. Instalar o Skupper no Cluster Openshift
+2. Instalar o Skupper no Cluster OpenShift
 
 ```
 ./skupper init --enable-console --enable-flow-collector --console-user admin --console-password admin
@@ -248,31 +254,49 @@ podman network create skupper
 3. Fazendo o Link entre os sites
 
 * Criando o token no cluster mais exposto
-* Fazendo o link do site podman no clister mais exposto
+    
+    ```bash
+    # skupper token create <token-name>
+    ./skupper token create insurance-claim
+    ```
+* Fazendo o link do site podman no cluster mais exposto
+    
+    ```bash
+    # skupper link create <token-name> --name <site-name>
+    ./skupper link create insurance-claim --name ai
+    ```
 
 4. Rodando a aplicação dentro do podman site e expondo o serviço
 
-* Rodando a aplicação:
+#### Rodando a aplicação:
 
-```
+```bash
+# podman run -d --network <network-name> -p <port>:<port> -v <volume com os arquivos dos pedidos de seguro> --name <container-name> <image>
 podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/app/data --name insurance-claim-data quay.io/rzago/insurance-claim-data:latest
 ```
 
-* Criando o serviço no podman site:
+##### Criando o serviço no podman site:
+
+> Nesse passo, o serviço é criado no podman site e o skupper vai fazer o bind do serviço com o serviço do cluster
 
 ```bash
+# skupper service create <service-name> <port>
 ./skupper service create backend 8080
 ```
 
-* Fazendo o Bind do serviço podman
+> Fazendo o Bind do serviço podman site com o serviço local.
+
+
 
 ```bash
+# skupper service bind <service-name> <target-name> --target-port <port>
 ./skupper service bind backend host insurance-claim-data --target-port 8080
 ```
 
-* Criando o serviço dentro do cluster (que vai resolver o podman site)
+##### Criando o serviço dentro do cluster, para expor o serviço para o cluster Openshift.
 
-```
+```bash
+# skupper service create <service-name> <port>
 ./skupper service create backend 8080
 ```
 
