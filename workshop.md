@@ -2,17 +2,20 @@
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
-Além do treinamento feito para a análise dos sinistros, vamos criar uma aplicação onde o resultado final será armazenado em um banco de dados e disponibilizado para consulta em um datacenter compartilhado e mais leve, pois a parte de processamento de texto já foi feita e assim a aplicação será mais rápida e eficiente e debaixo do  cluster kubernetes da empresa.
+Além do treinamento feito para a análise dos sinistros, com parte do Workshop no TDC Florianópolis, o exemplo foi adaptador para utilizar o Skupper como conexão dos dados privados dos pedidos de seguros. Com isso, a solução vai ser feita da seguinte forma:
 
-Essa conexão será feita com o Red Hat Service Interconnect, que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
-
-A aplicação será desenvolvida no Red Hat Developer Hub, que é uma plataforma de desenvolvimento de aplicativos que fornece uma experiência de desenvolvimento de aplicativos moderna e unificada para desenvolvedores de todos os níveis de habilidade.
+1. O armazenamentos dos dados brutos dos pedidos será feito dentro da empresa, mantendo o sigilo e controle dos dados.
+2. Uma aplicação Go vai expor os dados internamente em um container podman com um endpoint para a conexão com o Skupper. [go-flp(https://github.com/rafaelvzago/go-flp)
+3. O ambiente para treinamento dos modelos de IA/ML será feito em um cluster Openshift AI na AWS.
+4. A conexão do serviço de exposição de dados podman com o ambiente em núvem do Openshift AI será feita com o Red Hat Service Interconnect (Skupper), que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
 
 Detalhes:
 
 1. Esse workshop se baseia em uma demonstração do OpenShift AI, que fornece um ambiente de trabalho completo para desenvolvimento de projetos de IA/ML.
 2. Repositório do projeto: [Insurance Claim Processing](https://github.com/rh-aiservices-bu/insurance-claim-processing/tree/main)
 3. Red Hat Service Interconnect: [Red Hat Service Interconnect](https://www.redhat.com/en/technologies/cloud-computing/service-interconnect)
+4. Skupper: [Skupper](https://skupper.io/)
+5. Go-flp: [go-flp](https://github.com/rafaelvzago/go-flp)
 
 
 ![solucao](solucao.png)
@@ -39,8 +42,8 @@ Temos a necessidade de integrar a solução de processamento de sinistros com an
 
 1. Mantenha a integridade dos dados e a segurança da informação.
 2. O processamento dos emails deve ser feito com o Openshift AI no datacenter localizado dentro da empresa.
-3. A aplicação deve ser disponibilizada para consulta em um datacenter compartilhado e mais leve, pois a parte de processamento de texto já foi feita e assim a aplicação será mais rápida e eficiente.
-4. O treinamento não pode ser feito em outro cloud provider pois o custo é muito alto.
+3. A aplicação contendo os dados sensíveis como os claims originais devem ser mantidos dentro da empresa
+4. A conexão entre o serviço de dados e o data-center deve ser seguro.
 
 ## Análise do Processo Atual de Sinistros
 
@@ -218,90 +221,61 @@ Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos expe
    - Edite ou crie sinistros mais complexos.
    - Ajuste o prompt para extração de data e hora mais precisa, em formato específico.
 
-## Parte 2: Modificação do código de processamento pedidos
+## Parte 2: Hands On
 
-Agora, vamos salvar em .json o conteúdo final de cada sinistro, para que possamos utilizá-lo em um modelo de LLM.
+### Atividades
 
-Formato:
+1. Instalar o Skupper localmente
+2. Instalar o Skupper no Cluster Openshift
+3. Fazer o link dos sites
+4. Rodando a aplicação dentro do podman site e expondo o serviço
+5. Modificar os exemplos usados na demonstração
 
-```json
-{
-  "subject": "Assunto do sinistro",
-  "content": "Conteúdo do sinistro",
-  "summary": "Resumo do sinistro",
-  "sentiment": "Sentimento do autor",
-  "location": "Local do evento",
-  "time": "Horário do evento"
-}
-```
-
-**Instruções:**
-
-1. Abra o arquivo `03-03-information-extraction.ipynb`.
-
-Modifique o passo #6 Analyse Claims:
-
-```python
-for filename in onlyfiles:
-    print(f"***************************")
-    print(f"* Claim: {filename}")
-    print(f"***************************")
-    print("Original content:")
-    print("-----------------")
-    print(f"Subject: {claims[filename]['subject']}\nContent:\n{claims[filename]['content']}\n\n")
-    print('Analysis:')
-    print("--------")
-    text_input = f"Subject: {claims[filename]['subject']}\nContent:\n{claims[filename]['content']}"
-    sentiment_query = "What is the sentiment of the person sending this claim?"
-    location_query = "Where does the event the claim is related to happen?"
-    time_query = "When does the event the claim is related to happen? If possible, specify the date and the time."
-    # Analysis and prediction (Same as before)
-    text_input = f"Subject: {claims[filename]['subject']}\nContent:\n{claims[filename]['content']}"
-
-    sentiment_response = conversation.predict(text=text_input, query=sentiment_query)
-    location_response = conversation.predict(text=text_input, query=location_query)
-    time_response = conversation.predict(text=text_input, query=time_query)
-
-    # Create a dictionary to store the analysis results
-    analysis_result = {
-        "filename": filename,
-        "subject": claims[filename]['subject'],
-        "sentiment": sentiment_response,
-        "location": location_response,
-        "time": time_response
-    }
-
-    # Convert the dictionary to a JSON string
-    json_output = json.dumps(analysis_result, indent=4)  # indent for readability
-
-    # Option 1: Print the JSON
-    print(json_output)
-
-    # Option 2: Save to a JSON file
-    with open(f"{filename}_analysis.json", "w") as json_file:
-        json_file.write(json_output)
-
-    print("\n\n             ----====----\n")  # Divider between claims (optional)
-```
-
-> Após a modificação, execute o notebook para gerar os arquivos .json com as informações dos sinistros.
+1. Instalando o skupper no podman site
 
 ```bash
-claim1.json_analysis.json
-claim2.json_analysis.json
-claim3.json_analysis.json
+export SKUPPER_PLATFORM=podman
+podman network create skupper
+./skupper init --ingress none
 ```
 
-> Conteúdo de exemplo:
+2. Instalar o Skupper no Cluster Openshift
 
-```json
-{
-    "filename": "claim1.json",
-    "subject": "Claim for Recent Car Accident - Policy Number: AC-987654321",
-    "sentiment": "The sender, Sarah Turner, expresses a polite and professional tone in her email. She is respectful and detailed in her description of the car accident and the subsequent steps she took to file a claim. She requests prompt attention to the matter and provides all necessary documentation. Overall, her sentiment is one of being proactive and cooperative in the claims process.",
-    "location": "The car accident described in the claim occurred at the intersection of Birch Street and Willow Avenue in the city of Evergreen.",
-    "time": "The car accident referred to in the claim occurred on January 2nd, 2024, at approximately 3:30 PM."
-}
+```
+./skupper init --enable-console --enable-flow-collector --console-user admin --console-password admin
 ```
 
+3. Fazendo o Link entre os sites
 
+* Criando o token no cluster mais exposto
+* Fazendo o link do site podman no clister mais exposto
+
+4. Rodando a aplicação dentro do podman site e expondo o serviço
+
+* Rodando a aplicação:
+
+```
+podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/app/data --name insurance-claim-data quay.io/rzago/insurance-claim-data:latest
+```
+
+* Criando o serviço no podman site:
+
+```bash
+./skupper service create backend 8080
+```
+
+* Fazendo o Bind do serviço podman
+
+```bash
+./skupper service bind backend host insurance-claim-data --target-port 8080
+```
+
+* Criando o serviço dentro do cluster (que vai resolver o podman site)
+
+```
+./skupper service create backend 8080
+```
+
+5. Modificar os exemplos usados na demonstração
+
+* Utilizar os notebooks modificados
