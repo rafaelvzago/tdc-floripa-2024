@@ -236,8 +236,8 @@ Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos expe
 1. Instalar o Skupper localmente
 2. Instalar o Skupper no Cluster OpenShift
 3. Fazer o link dos sites
-4. Rodando a aplicação dentro do podman site e expondo o serviço
-5. Modificar os exemplos usados na demonstração
+4. Rodar a aplicação dentro do podman site e expor o serviço
+5. Executar o workshop com os exemplos modificados [insurance-claim-processing-rafalvzago](https://github.com/rafaelvzago/insurance-claim-processing.git)
 
 1. Instalando o Skupper no podman site
 
@@ -259,13 +259,13 @@ podman network create skupper
     
     ```bash
     # skupper token create <token-name>
-    ./skupper token create insurance-claim
+    ./skupper token create /tmp/insurance-claim
     ```
 * Fazendo o link do site podman no cluster mais exposto
     
     ```bash
     # skupper link create <token-name> --name <site-name>
-    ./skupper link create insurance-claim --name ai
+    ./skupper link create /tmp/insurance-claim --name ai
     ```
 
 4. Rodando a aplicação dentro do podman site e expondo o serviço
@@ -289,7 +289,6 @@ podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/ap
 > Fazendo o Bind do serviço podman site com o serviço local.
 
 
-
 ```bash
 # skupper service bind <service-name> <target-name> --target-port <port>
 ./skupper service bind backend host insurance-claim-data --target-port 8080
@@ -302,6 +301,4 @@ podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/ap
 ./skupper service create backend 8080
 ```
 
-5. Modificar os exemplos usados na demonstração
-
-* Utilizar os notebooks modificados
+5. Continuar com o workshop até gerar os sentimentos dos e-mails.
