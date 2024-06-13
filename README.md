@@ -1,21 +1,18 @@
 # Workshop - Processamento de Sinistros de Seguros
 
-Link: https://demo.redhat.com/workshop/87caa7
-
-Usuário: 
-
-Senha: 
-
 ## Visão Geral do Workshop
+![solucao](solucao.png)
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
-Além do treinamento feito para a análise dos sinistros, com parte do Workshop no TDC Florianópolis, o exemplo foi adaptado para utilizar o Skupper como conexão dos dados privados dos pedidos de seguros. Com isso, a solução será feita da seguinte forma:
+Além do treinamento feito para a análise dos sinistros, como parte do Workshop no TDC Florianópolis, o exemplo foi adaptado para utilizar o **Skupper** como a conexão dos dados privados dos pedidos de seguros. Com isso, a solução será implementada da seguinte forma:
 
 1. O armazenamento dos dados brutos dos pedidos será feito dentro da empresa, mantendo o sigilo e controle dos dados.
-2. Uma aplicação Go vai expor os dados internamente em um container podman com um endpoint para a conexão com o Skupper. [go-flp(https://github.com/rafaelvzago/go-flp)
+2. Uma aplicação Go vai expor os dados internamente em um container podman com um endpoint para a conexão com o Skupper. [go-flp](https://github.com/rafaelvzago/go-flp)
 3. O ambiente para treinamento dos modelos de IA/ML será feito em um cluster Openshift AI na AWS.
 4. A conexão do serviço de exposição de dados podman com o ambiente em nuvem do Openshift AI será feita com o Red Hat Service Interconnect (Skupper), que é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres.
+
+Ao utilizar o Skupper, garantimos uma conexão segura e eficiente entre os dados locais e os serviços de IA/ML em nuvem, facilitando a criação de soluções híbridas robustas e escaláveis.
 
 Detalhes:
 
@@ -25,17 +22,26 @@ Detalhes:
 4. Skupper: [Skupper](https://skupper.io/)
 5. Go-flp: [go-flp](https://github.com/rafaelvzago/go-flp)
 
+---
 
-![solucao](solucao.png)
+## O papel do Skupper
+
+O Skupper é uma plataforma de integração de aplicativos híbridos e multicloud que permite conectar aplicativos e dados em qualquer ambiente, seja local, em nuvem ou em contêineres. Ele fornece uma maneira segura e eficiente de conectar serviços e aplicativos em diferentes ambientes, permitindo a comunicação entre eles de forma transparente e escalável.
+
+Neste workshop, o Skupper é utilizado para conectar um serviço de dados local, que contém informações sensíveis sobre pedidos de seguros, com um ambiente de IA/ML em nuvem, onde os modelos de processamento de sinistros são treinados e executados. Essa conexão segura e eficiente permite que os dados sejam acessados e processados de forma remota, mantendo a integridade e a segurança das informações.
+
+### Detalhes
+
+- Segurança: Para garantir a segurança dos dados, o Skupper utiliza criptografia de ponta a ponta e autenticação baseada em certificados para proteger a comunicação entre os serviços. (mTLS)
+- Conectividade: O Site mais aberto (Openshift AI) é quem oferece o serviço de entrada para a VAN, e o site mais fechado (podman) é quem se conecta a VAN.
 
 ## Estrutura do Processo
 
 * Contexto
 * Conexão e Setup
-* LLM           
-* Processamento de Imagem 
-* Web App         
-* Produtização  
+* LLM para Resumo de Texto
+* LLM para Extração de Informações
+* LLM para Análise de Sentimento
 
 ## Cenário
 
@@ -45,44 +51,25 @@ As descobertas serão apresentadas à diretoria e, se convincentes, a equipe rec
 
 Temos a necessidade de integrar a solução de processamento de sinistros com análise de texto com nossa API em um cluster Kubernetes na AWS, pois o processamento foi feito dentro de outro datacenter da empresa.
 
-
 ## Desafios:
 
-1. Manter a integridade dos dados e a segurança da informação.
-2. O processamento dos e-mails deve ser feito com o OpenShift AI no datacenter localizado dentro da empresa.
-3. A aplicação contendo os dados sensíveis, como os claims originais, deve ser mantida dentro da empresa.
-4. A conexão entre o serviço de dados e o datacenter deve ser segura.
+### Uso do Skupper para Garantir a Segurança e Integridade dos Dados
 
-## Análise do Processo Atual de Sinistros
+1. **Manter a integridade dos dados e a segurança da informação**:
+   O Skupper permite criar redes de aplicações híbridas e multicloud, garantindo que a comunicação entre diferentes ambientes seja segura e confiável. Utilizando o Skupper, é possível criptografar todo o tráfego de dados, assegurando que os dados sensíveis estejam protegidos durante a transmissão. Além disso, ele mantém a integridade dos dados, evitando alterações não autorizadas e garantindo que os dados recebidos sejam os mesmos que os enviados.
 
-Os sinistros podem ser recebidos por diversos canais (e-mail, fax, telefone, formulário web), mas todos precisam ser transcritos para o formulário web para padronização.
+2. **Processamento dos e-mails com OpenShift AI no datacenter localizado dentro da empresa**:
+   Para o processamento de e-mails, o Skupper pode ser configurado para conectar a infraestrutura interna da empresa com o cluster OpenShift AI no datacenter local. Isso permite que os modelos de IA/ML sejam treinados e executados localmente, mantendo o processamento perto da origem dos dados e reduzindo a latência. Com o Skupper, a empresa pode utilizar as capacidades avançadas do OpenShift AI sem expor os dados sensíveis à nuvem pública.
 
-O processamento é feito por peritos (humanos), que levam em média 7 horas por sinistro. Estima-se que erros humanos causem perdas de US$ 2,5 milhões/ano, e fraudes, mais US$ 3,5 milhões/ano.
+3. **Manter a aplicação contendo os dados sensíveis, como os claims originais, dentro da empresa**:
+   A aplicação que armazena dados sensíveis, como os claims originais, deve permanecer dentro da infraestrutura da empresa para garantir a segurança e conformidade com as políticas internas de proteção de dados. O Skupper facilita a conexão segura dessa aplicação com outros serviços ou ambientes de processamento, garantindo que os dados não precisem ser movidos para fora da empresa.
 
-Existem muitas ineficiências, como a "fadiga por carga de trabalho", que leva os peritos a cometerem erros devido à natureza repetitiva do trabalho. Além disso, o treinamento de novos peritos nas políticas específicas da empresa é demorado.
+4. **Garantir a conexão segura entre o serviço de dados e o datacenter**:
+   O Skupper usa túneis de comunicação seguros para conectar diferentes ambientes, seja no local, na nuvem ou em contêineres. Isso assegura que a conexão entre o serviço de dados (armazenado dentro da empresa) e o datacenter (onde o OpenShift AI está localizado) seja robusta e protegida contra interceptações ou acessos não autorizados. O uso de Skupper proporciona uma comunicação segura e eficiente, essencial para manter a confidencialidade e integridade dos dados sensíveis.
 
-Codificar parte desse conhecimento em um software é altamente desejável.
+Em resumo, o Skupper é uma ferramenta crucial para garantir que os dados sensíveis sejam transmitidos e processados de forma segura entre diferentes ambientes, mantendo a integridade e segurança das informações. Ele possibilita a implementação de soluções híbridas que combinam a infraestrutura local e a nuvem, aproveitando o melhor dos dois mundos sem comprometer a segurança dos dados.
 
-## Melhorias Propostas
-
-**Recomendações:**
-
-* Implementação progressiva e gradual.
-* Utilizar ferramentas e técnicas de IA/ML para auxiliar os peritos (em vez de substituí-los completamente).
-* Oferecer suporte para tarefas repetitivas e de baixo nível.
-* Identificar áreas que precisam de revisão.
-* Ajudar na análise e extração de dados.
-
-**Objetivos:**
-
-* Reduzir o tempo médio de processamento de 7h/sinistro para 2h/sinistro.
-* Reduzir o erro humano em 80%.
-* Melhorar a detecção de fraude em 25%.
-
-**Requisitos:**
-
-* Medir o desempenho com mais precisão, tanto no início quanto após cada mudança/melhoria.
-
+---
 ## Exemplos do Trabalho de Prototipagem
 
 Os exemplos abaixo ilustram o que esperamos alcançar com a versão protótipo do processo aprimorado.
@@ -112,145 +99,67 @@ Permite identificar rapidamente o sentimento do cliente.
 
 Detectar o tom do texto e potencialmente agir sobre ele.
 
-## Resultados
-
-A diretoria foi convencida! A empresa decidiu financiar totalmente o projeto, permitindo a transição da fase de prototipagem para a produção. E a boa notícia é que vocês foram contratados para fazer parte da equipe que construirá e implementará a solução completa!
-
-
-### Overview da Arquitetura
-
-A imagem demonstra a arquitetura de um cluster de computação para processamento de dados e inteligência artificial. O cluster é composto por:
-
-* **Recursos compartilhados:**
-    - ic-shared-minio: Armazenamento de objetos (MinIO) para dados e artefatos.
-    - ic-shared-app: Aplicativo compartilhado para interação com os usuários.
-    - ic-shared-img-det: Modelos de detecção de imagem.
-    - ic-shared-db: Banco de dados compartilhado.
-    - ic-shared-llm: Modelos de linguagem de grande porte (LLMs) para processamento de linguagem natural.
-
-* **Recursos individuais por usuário:**
-    - Workbench: Ambiente de desenvolvimento para cada usuário (user1, user2, user3, ..., userN).
-    - Model Serving: Serviço para disponibilizar modelos de machine learning.
-    - Pipeline Server: Servidor para orquestrar pipelines de dados e machine learning.
-    - Web App: Aplicativo web para interação com os usuários.
-
-* **Infraestrutura:**
-    - Vários nós de processamento com GPUs para execução de tarefas intensivas em computação.
-    - Um nó de GPU dedicado para tarefas específicas.
-
-A arquitetura permite que múltiplos usuários trabalhem em seus próprios projetos, utilizando recursos compartilhados e individuais, com o suporte de uma infraestrutura de computação poderosa.
 
 ## Como usar LLMs?
 
 - [Notebook para utilizar LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-01-nb-llm-example.ipynb)
 
-Este notebook explora a interação programática com um modelo de linguagem de grande porte (LLM), como o ChatGPT, utilizando Python e o framework Langchain. Em vez de usar uma interface gráfica, acessamos o modelo Mistral-7B Instruct v2 diretamente através de sua API, aproveitando suas capacidades para tarefas específicas.
-
-Configuramos o modelo com parâmetros como número máximo de tokens e temperatura, que influenciam o comprimento e a criatividade da resposta. Além disso, definimos um template com instruções detalhadas para guiar o comportamento do modelo, garantindo respostas seguras, éticas e informativas.
-
-Utilizando o Langchain, combinamos o modelo e o template para criar um objeto de conversa, que facilita a comunicação com o LLM. Para demonstrar a interação, enviamos uma pergunta sobre Inteligência Artificial e obtivemos uma resposta detalhada e esclarecedora do modelo.
-
-Este processo programático de interação com LLMs abre um leque de possibilidades para integrar modelos de linguagem em aplicações e sistemas, permitindo o desenvolvimento de soluções mais personalizadas e eficientes.
+Este notebook demonstra a interação programática com um modelo de linguagem de grande porte (LLM), como o ChatGPT, usando Python e o framework Langchain. Através da API do modelo Mistral-7B Instruct v2, configuramos parâmetros e definimos um template para guiar as respostas do modelo. Combinando o modelo e o template no Langchain, criamos um objeto de conversa para facilitar a comunicação com o LLM, exemplificado por uma pergunta sobre Inteligência Artificial. Este método programático de interação com LLMs oferece oportunidades para integrar modelos de linguagem em aplicações e sistemas, permitindo o desenvolvimento de soluções mais personalizadas e eficientes.
 
 ### Notebook para Resumo de Texto
 
 - [Notebook para resumir texto com LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-02-summarization.ipynb)
 
-Este trecho de código em Python prepara os dados para a sumarização de sinistros por um modelo de linguagem (LLM). Ele lê todos os arquivos JSON na pasta 'claims', que contêm informações sobre sinistros de seguro. Em seguida, converte o conteúdo de cada arquivo em um dicionário Python e armazena esses dicionários em um dicionário maior chamado `claims`. Cada chave neste dicionário é o nome do arquivo JSON e o valor correspondente é o dicionário Python que representa o sinistro.
-
-Em seguida, o código utiliza o framework Langchain para criar um pipeline de sumarização. Este pipeline combina o modelo de linguagem Mistral-7B Instruct v2 com um template que fornece instruções específicas para a tarefa de sumarização. O objetivo é gerar resumos concisos e informativos para cada sinistro presente nos arquivos JSON.
-
-Após a criação do pipeline, o código itera sobre cada sinistro no dicionário `claims`. Para cada sinistro, ele exibe o assunto e o conteúdo original do sinistro, seguido do resumo gerado pelo LLM. Isso permite comparar o texto original com o resumo, avaliando a qualidade e a utilidade da sumarização realizada pelo modelo.
+O código Python em questão prepara dados de sinistros de seguro para sumarização por um modelo de linguagem (LLM). Ele lê arquivos JSON na pasta 'claims', converte o conteúdo em dicionários Python e armazena em um dicionário maior claims. Utiliza o framework Langchain para criar um pipeline de sumarização com o modelo de linguagem Mistral-7B Instruct v2 e um template específico. Após a criação do pipeline, o código itera sobre cada sinistro em claims, exibindo o assunto e o conteúdo original do sinistro, seguido do resumo gerado pelo LLM, permitindo a avaliação da qualidade e utilidade da sumarização do modelo.
 
 
 ### Notebook para Extração de Informações
 
 - [Notebook para extrair informações com LLM](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-03-information-extraction.ipynb)
 
-Este notebook explora a capacidade de um LLM (Large Language Model) analisar textos e extrair informações específicas, como o sentimento do autor e detalhes sobre um evento.
-
-Utilizando o framework Langchain e o modelo de linguagem Mistral-7B Instruct v2, um pipeline de análise é criado. Um template específico é definido para guiar o LLM na extração de informações relevantes, como o sentimento do autor, local e horário de um evento descrito em um texto.
-
-O código lê arquivos JSON contendo exemplos de sinistros de seguro e, para cada sinistro:
-
-1. Exibe o assunto e o conteúdo original da mensagem.
-2. Realiza três consultas ao LLM:
-    - Análise de sentimento: Detecta o estado emocional do autor da mensagem.
-    - Extração de local: Identifica o local do evento mencionado na mensagem.
-    - Extração de tempo: Determina o horário (data e hora) do evento mencionado na mensagem.
-3. Apresenta os resultados da análise, incluindo o sentimento, local e horário extraídos.
-
-Essa demonstração ilustra como os LLMs podem ser utilizados para automatizar a análise de textos, extraindo informações relevantes de forma rápida e eficiente, o que pode ser aplicado em diversas áreas, como análise de feedback de clientes, moderação de conteúdo e processamento de documentos.
+Este notebook utiliza o framework Langchain e o modelo de linguagem Mistral-7B Instruct v2 para analisar textos e extrair informações específicas, como o sentimento do autor e detalhes de um evento. Um pipeline de análise é criado com um template específico para guiar o LLM. O código lê arquivos JSON de sinistros de seguro e, para cada um, exibe o assunto e o conteúdo original, realiza consultas ao LLM para análise de sentimento, extração de local e tempo, e apresenta os resultados da análise.
 
 ### Notebook para comparação de modelos de LLMs
 
 - [Notebook para comparar modelos de LLMs](https://github.com/rh-aiservices-bu/insurance-claim-processing/blob/main/lab-materials/03/03-04-comparing-models.ipynb)
 
-Este notebook explora a comparação entre dois modelos de linguagem (LLMs): Mistral-7B e Flan-T5-Small, avaliando seu desempenho em tarefas de análise de texto, como identificar o sentimento do autor, local e horário de um evento.
+Este notebook compara dois modelos de linguagem (LLMs): Mistral-7B e Flan-T5-Small, avaliando seu desempenho em tarefas de análise de texto, como identificar o sentimento do autor, local e horário de um evento. O Mistral-7B, com 7 bilhões de parâmetros, exige uma GPU com 24GB de RAM e oferece resultados mais precisos e detalhados. Em contraste, o Flan-T5-Small, com 80 milhões de parâmetros, pode ser executado sem GPU e com apenas 1GB de RAM, sendo mais rápido, porém menos preciso.
 
-**Comparação dos Modelos:**
-
-* **Mistral-7B:**
-    - Modelo maior com 7 bilhões de parâmetros.
-    - Requer GPU com 24GB de RAM.
-    - Apresenta resultados mais precisos e detalhados na análise do texto.
-* **Flan-T5-Small:**
-    - Modelo menor com 80 milhões de parâmetros.
-    - Executa sem GPU e com apenas 1GB de RAM.
-    - Mais rápido, mas com resultados menos precisos e detalhados.
-
-**Análise de Caso:**
-
-> O notebook demonstra a análise de um sinistro de carro utilizando ambos os modelos. O Mistral-7B identifica corretamente o sentimento positivo do remetente, o local (cruzamento de Birch Street e Willow Avenue em Evergreen) e o horário (2 de janeiro de 2024, às 15h30). Já o Flan-T5-Small apresenta resultados imprecisos, como um sentimento negativo e informações incorretas sobre o local e o horário.
-
-**Conclusão:**
-
-> A escolha do modelo ideal depende do equilíbrio entre desempenho, precisão e recursos disponíveis. O Mistral-7B oferece maior precisão, mas exige mais recursos. O Flan-T5-Small é mais rápido e leve, porém menos preciso. É crucial realizar verificações de sanidade para garantir que o modelo escolhido atenda às expectativas e se adapte às mudanças nos dados.
-
-### Modificando os parâmetros do LLM
-
-#### Explorando as Configurações e Modificando os Dados
-
-Para entender melhor o comportamento dos modelos de linguagem (LLMs), vamos experimentar com suas configurações e dados.
-
-**Ajustando as Configurações do LLM:**
-
-1. **Notebook 03-01-nb-llm-example.ipynb:**
-   - Modifique parâmetros como a temperatura para respostas mais criativas.
-   - Experimente com o template do prompt para obter respostas em diferentes formatos (poemas, explicações para públicos específicos).
-   - Altere as perguntas para testar a robustez contra "prompt injection".
-
-**Modificando os Dados e o Prompt:**
-
-2. **Notebook 03-02-summarization.ipynb:**
-   - Edite ou crie sinistros mais complexos.
-   - Experimente com diferentes idiomas.
-3. **Notebook 03-03-information-extraction.ipynb:**
-   - Edite ou crie sinistros mais complexos.
-   - Ajuste o prompt para extração de data e hora mais precisa, em formato específico.
+Na análise de um sinistro de carro, o Mistral-7B identificou corretamente o sentimento positivo, o local exato (cruzamento de Birch Street e Willow Avenue em Evergreen) e o horário (2 de janeiro de 2024, às 15h30). Já o Flan-T5-Small apresentou resultados imprecisos, como um sentimento negativo e informações incorretas sobre o local e o horário. A escolha do modelo ideal deve equilibrar desempenho, precisão e recursos disponíveis, com verificações de sanidade essenciais para garantir que o modelo atenda às expectativas e se adapte a mudanças nos dados.
 
 ## Parte 2: Hands On
 
 ### Atividades
 
+
+0. Instalar o binário do Skupper
 1. Instalar o Skupper localmente
 2. Instalar o Skupper no Cluster OpenShift
 3. Fazer o link dos sites
 4. Rodar a aplicação dentro do podman site e expor o serviço
 5. Executar o workshop com os exemplos modificados [insurance-claim-processing-rafalvzago](https://github.com/rafaelvzago/insurance-claim-processing.git)
 
+
+### Passos
+
+0. Instalando o binário do Skupper
+
+```bash
+curl https://skupper.io/install.sh | sh
+```
+
 1. Instalando o Skupper no podman site
 
 ```bash
 export SKUPPER_PLATFORM=podman
 podman network create skupper
-./skupper init --ingress none
+skupper init --ingress none
 ```
 
 2. Instalar o Skupper no Cluster OpenShift
 
 ```
-./skupper init --enable-console --enable-flow-collector --console-user admin --console-password admin
+skupper init --enable-console --enable-flow-collector --console-user admin --console-password admin
 ```
 
 3. Fazendo o Link entre os sites
@@ -259,13 +168,13 @@ podman network create skupper
     
     ```bash
     # skupper token create <token-name>
-    ./skupper token create /tmp/insurance-claim
+    skupper token create /tmp/insurance-claim
     ```
 * Fazendo o link do site podman no cluster mais exposto
     
     ```bash
     # skupper link create <token-name> --name <site-name>
-    ./skupper link create /tmp/insurance-claim --name ai
+    skupper link create /tmp/insurance-claim --name ai
     ```
 
 4. Rodando a aplicação dentro do podman site e expondo o serviço
@@ -283,7 +192,7 @@ podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/ap
 
 ```bash
 # skupper service create <service-name> <port>
-./skupper service create backend 8080
+skupper service create backend 8080
 ```
 
 > Fazendo o Bind do serviço podman site com o serviço local.
@@ -291,14 +200,14 @@ podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/ap
 
 ```bash
 # skupper service bind <service-name> <target-name> --target-port <port>
-./skupper service bind backend host insurance-claim-data --target-port 8080
+skupper service bind backend host insurance-claim-data --target-port 8080
 ```
 
 ##### Criando o serviço dentro do cluster, para expor o serviço para o cluster Openshift.
 
 ```bash
 # skupper service create <service-name> <port>
-./skupper service create backend 8080
+skupper service create backend 8080
 ```
 
 5. Continuar com o workshop até gerar os sentimentos dos e-mails.
