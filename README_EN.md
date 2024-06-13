@@ -1,7 +1,7 @@
 # Workshop - Insurance Claim Processing
 
 ## Workshop Overview
-![solution](images/solution.png)
+![solution](images/solucao.png)
 
 This lab will demonstrate how the combination of various Artificial Intelligence/Machine Learning (AI/ML) technologies can generate a valuable solution for a business problem. The information, code, models, and techniques presented illustrate how an initial prototype could be developed and do not represent the only way to meet the established requirements.
 
