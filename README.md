@@ -1,7 +1,7 @@
 # Workshop - Processamento de Sinistros de Seguros
 
 ## Visão Geral do Workshop
-![solucao](solucao.png)
+![solucao](images/solucao.png)
 
 Este laboratório demonstrará como a combinação de diversas tecnologias de Inteligência Artificial/Aprendizado de Máquina (IA/ML) pode gerar uma solução valiosa para um problema de negócio. As informações, códigos, modelos e técnicas apresentados ilustram como um primeiro protótipo poderia ser desenvolvido, e não representam a única forma de atender aos requisitos estabelecidos.
 
@@ -77,7 +77,7 @@ Os exemplos abaixo ilustram o que esperamos alcançar com a versão protótipo d
 ### Utilizando um LLM para Resumo de Texto
 
 Permite uma leitura mais rápida pelo perito.
-![Image of text summary LLM](text-summary-LLM.png)
+![Image of text summary LLM](images/text-summary-LLM.png)
 
  A imagem demonstra como um modelo de linguagem (LLM) pode resumir um e-mail longo e confuso de um cliente sobre um acidente de carro em um formato claro e conciso. Isso permite que o perito de seguros compreenda rapidamente os detalhes-chave do acidente (data, local, danos, testemunhas), agilizando o processo de análise e processamento da reivindicação.
 
@@ -85,7 +85,7 @@ Permite uma leitura mais rápida pelo perito.
 
 Permite extrair informações-chave de um e-mail e preencher automaticamente.
 
-![Image of Information Extraction](information-extraction-LLM.png)
+![Image of Information Extraction](images/information-extraction-LLM.png)
 
 A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-chave de um e-mail sobre um acidente de carro e preencher automaticamente um formulário estruturado. No exemplo, o LLM extraiu corretamente a data do acidente, local, tipo de sinistro e modelo do carro do remetente, economizando tempo e reduzindo o risco de erros manuais no cadastro da ocorrência.
 
@@ -95,7 +95,7 @@ A imagem demonstra como um modelo de linguagem (LLM) pode extrair informações-
 
 Permite identificar rapidamente o sentimento do cliente.
 
-![Image of Sentiment Analysis](sentiment-LLM.png)
+![Image of Sentiment Analysis](images/sentiment-LLM.png)
 
 Detectar o tom do texto e potencialmente agir sobre ele.
 
@@ -179,14 +179,14 @@ skupper init --enable-console --enable-flow-collector --console-user admin --con
 
 4. Rodando a aplicação dentro do podman site e expondo o serviço
 
-#### Rodando a aplicação:
+### Rodando a aplicação:
 
 ```bash
 # podman run -d --network <network-name> -p <port>:<port> -v <volume com os arquivos dos pedidos de seguro> --name <container-name> <image>
 podman run -d --network skupper -p 8080:8080 -v /home/rzago/Code/go-flp/data:/app/data --name insurance-claim-data quay.io/rzago/insurance-claim-data:latest
 ```
 
-##### Criando o serviço no podman site:
+### Criando o serviço no podman site:
 
 > Nesse passo, o serviço é criado no podman site e o skupper vai fazer o bind do serviço com o serviço do cluster
 
@@ -203,11 +203,47 @@ skupper service create backend 8080
 skupper service bind backend host insurance-claim-data --target-port 8080
 ```
 
-##### Criando o serviço dentro do cluster, para expor o serviço para o cluster Openshift.
+### Criando o serviço dentro do cluster, para expor o serviço para o cluster Openshift.
 
 ```bash
 # skupper service create <service-name> <port>
 skupper service create backend 8080
 ```
 
+### Conexão feita com sucesso
+
+![console](images/skupper-console.png)
+
+### Topologia
+
+![topologia](images/topology.png)
+
+### Testando a conexão ao serviço do podman site a partir do cluster Openshift
+
+```bash
+❯ oc exec deploy/skupper-router -c router -- curl http://backend:8080/claim/claim1.json
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2352  100  2352    0     0   2900   {  0 --:--:-- --:--:-- --:--:--  2896
+    "claim-number": 1,
+    "subject": "Claim for Recent Car Accident - Policy Number: AC-987654321",
+    "content": "Dear Pacific Shield Insurance,\n\nI hope this email finds you well. My name is Sarah Turner, and I am writing to file a claim for a recent car accident that occurred on January 2nd, 2024, at approximately 3:30 PM. My policy number is AC-987654321.\n\nThe accident took place at the intersection of Birch Street and Willow Avenue in the city of Evergreen. I was driving my vehicle, a black Toyota Camry with license plate number DEF-456, heading south on Birch Street. At the intersection, the traffic signal was green, and I proceeded through the intersection.\n\nAt the same time, another vehicle, a blue Chevrolet Traverse with license plate number GHI-789, was traveling west on Willow Avenue. Unfortunately, the driver failed to stop at the red traffic signal, resulting in a collision with the front passenger side of my vehicle.\n\nThe impact caused significant damage to both vehicles. The front bumper and right headlight of my Toyota Camry are extensively damaged, and there are also damages to the front driver's side of the Chevrolet Traverse. Fortunately, no injuries were sustained during the accident, and both drivers were able to move their vehicles to the side of the road.\n\nI promptly exchanged information with the other driver, Mr. Daniel Reynolds, including our names, phone numbers, insurance details, and a brief description of the accident. Additionally, I took photos of the accident scene, including the damages to both vehicles and the position of the traffic signal.\n\nI have attached the necessary documents to this email, including the photos, a copy of the police report filed at the Evergreen Police Department, and the estimate for the repair costs from Evergreen Auto Repair, where I have taken my vehicle for assessment.\n\nI kindly request your prompt attention to this matter and would appreciate any guidance on the next steps in the claims process. If you require any additional information or documentation, please do not hesitate to contact me at (555) 123-4567 or sarah.turner@email.com.\n\nThank you for your assistance, and I look forward to a swift resolution of this claim.\n\nSincerely,\n\nSarah Turner\n123 Oak Street\nEvergreen, CA 98765\n(555) 123-4567\nsarah.turner@email.com"
+}
+   0 --:--:-- --:--:-- --:--:--  2896
+~
+```
 5. Continuar com o workshop até gerar os sentimentos dos e-mails.
+
+
+---
+
+Caso tenha alguma dúvida, abra uma issue no repositório do projeto.
+
+Rafael Zago - [www.rafaelzago.com](https://www.rafaelzago.com)
+
+
+---
+
+License
+
+Apache License 2.0
