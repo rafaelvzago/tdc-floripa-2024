@@ -241,9 +241,6 @@ Caso tenha alguma dúvida, abra uma issue no repositório do projeto.
 
 Rafael Zago - [www.rafaelzago.com](https://www.rafaelzago.com)
 
-
----
-
 License
 
 Apache License 2.0
